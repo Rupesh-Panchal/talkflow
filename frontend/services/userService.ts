@@ -28,6 +28,11 @@ export const userService = {
 		return res.data;
 	},
 	
+    async getAllUsers() {
+        const res = await api.get("/users/");
+        return res.data;
+    },
+
 	async searchUsers(q: string) {
 		const res = await api.get(`/users/search?q=${q}`);
 		return res.data;

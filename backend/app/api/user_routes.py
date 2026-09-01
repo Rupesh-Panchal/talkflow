@@ -110,6 +110,44 @@ async def update_avatar(
     return {"message": "Avatar updated successfully", "avatar_url": avatar_url}
 
 
+@router.get("/")
+async def get_all_users(payload: dict = Depends(get_current_user_payload)):
+    current_user_id = payload["user_id"]
+    cursor = users_collection.find(
+        {
+            "_id": {
+                "$ne": ObjectId(current_user_id)
+            }
+        },
+        {
+            "_id": 1,
+            "username": 1,
+            "avatar_url": 1,
+            "is_online": 1,
+            "last_seen": 1
+        }
+    ).limit(50)
+
+    results = []
+    async for user in cursor:
+        results.append({
+            "id": str(user["_id"]),
+            "username": user.get("username"),
+            "avatar_url": user.get("avatar_url"),
+            "is_online": user.get("is_online", False),
+            "last_seen": (
+                str(user["last_seen"])
+                if user.get("last_seen")
+                else None
+            )
+        })
+
+    return {
+        "results": results,
+        "count": len(results)
+    }
+
+
 @router.get("/search")
 async def search_users(q: str, payload: dict = Depends(get_current_user_payload)):
     if not q or not q.strip():
@@ -132,9 +170,9 @@ async def search_users(q: str, payload: dict = Depends(get_current_user_payload)
     async for user in cursor:
         results.append({
             "id": str(user["_id"]),
-            "username": user["username"],
-            "avatar_url": user["avatar_url"],
-            "is_online": user["is_online"]
+            "username": user.get("username"),
+            "avatar_url": user.get("avatar_url"),
+            "is_online": user.get("is_online", False)
         })
 
     return {"results": results, "count": len(results)}

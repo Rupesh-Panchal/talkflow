@@ -1,85 +1,141 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0F172A',
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 40,
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 50,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 42,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 8,
-    letterSpacing: 0.5,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#94A3B8',
-    textAlign: 'center',
-    maxWidth: '80%',
-  },
-  identifier: {
-    marginTop: 10,
-    color: '#38BDF8',
-    fontWeight: '600',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  form: {
-    width: '100%',
-  },
-  input: {
-    backgroundColor: '#1E2937',
-    borderWidth: 1,
-    borderColor: '#334155',
-    borderRadius: 12,
-    padding: 18,
-    marginBottom: 16,
-    fontSize: 22,
-    color: '#F1F5F9',
-    letterSpacing: 8,
-    textAlign: 'center',
-  },
-  button: {
-    backgroundColor: '#229ED9',
-    padding: 18,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginTop: 20,
-    shadowColor: '#229ED9',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4,
-    shadowRadius: 10,
-    elevation: 8,
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  resendText: {
-    marginTop: 25,
-    textAlign: 'center',
-    color: '#229ED9',
-    fontSize: 15,
-    fontWeight: '600',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "#F8F9FC",
+    },
+    scrollContainer: {
+        flexGrow: 1,
+        paddingBottom: 40,
+    },
+
+    // Header
+    header: {
+        backgroundColor: "#7B5CFF",
+        paddingTop: 60,
+        paddingBottom: 36,
+        paddingHorizontal: 24,
+        borderBottomLeftRadius: 28,
+        borderBottomRightRadius: 28,
+    },
+    logoRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: 20,
+    },
+    logoCircle: {
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        backgroundColor: "rgba(255,255,255,0.25)",
+        justifyContent: "center",
+        alignItems: "center",
+        marginRight: 10,
+    },
+    logoIcon: {
+        fontSize: 18,
+    },
+    brandName: {
+        fontSize: 22,
+        fontWeight: "700",
+        color: "#FFFFFF",
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: "700",
+        color: "#FFFFFF",
+        marginBottom: 6,
+    },
+    subtitle: {
+        fontSize: 15,
+        color: "rgba(255,255,255,0.85)",
+    },
+    identifier: {
+        marginTop: 8,
+        fontSize: 16,
+        fontWeight: "600",
+        color: "#FFFFFF",
+    },
+
+    // Form Card
+    formCard: {
+        backgroundColor: "#FFFFFF",
+        marginHorizontal: 20,
+        marginTop: -20,
+        borderRadius: 20,
+        padding: 24,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.08,
+        shadowRadius: 16,
+        elevation: 6,
+    },
+    label: {
+        fontSize: 12,
+        fontWeight: "600",
+        color: "#64748B",
+        letterSpacing: 0.6,
+        marginBottom: 8,
+        marginTop: 4,
+    },
+    inputWrapper: {
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "#F1F5F9",
+        borderRadius: 12,
+        borderWidth: 1.5,
+        borderColor: "#E2E8F0",
+        paddingHorizontal: 14,
+        marginBottom: 24,
+        height: 52,
+    },
+    inputIcon: {
+        fontSize: 16,
+        marginRight: 10,
+    },
+    input: {
+        flex: 1,
+        fontSize: 18,
+        color: "#1E293B",
+        letterSpacing: 6,
+        paddingVertical: 0,
+        textAlign: "center",
+    },
+
+    // Button
+    button: {
+        backgroundColor: "#7B5CFF",
+        height: 54,
+        borderRadius: 14,
+        justifyContent: "center",
+        alignItems: "center",
+        shadowColor: "#7B5CFF",
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.35,
+        shadowRadius: 10,
+        elevation: 6,
+    },
+    buttonDisabled: {
+        opacity: 0.65,
+    },
+    buttonText: {
+        color: "#FFFFFF",
+        fontSize: 17,
+        fontWeight: "700",
+    },
+
+    // Resend
+    resendContainer: {
+        marginTop: 24,
+        alignItems: "center",
+    },
+    resendText: {
+        fontSize: 14,
+        color: "#64748B",
+    },
+    resendLink: {
+        color: "#7B5CFF",
+        fontWeight: "700",
+    },
 });

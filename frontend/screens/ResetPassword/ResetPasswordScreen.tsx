@@ -1,20 +1,8 @@
-import React, { useState } from 'react';
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    Alert,
-    ActivityIndicator,
-    ScrollView,
-    KeyboardAvoidingView,
-    Platform,
-    Image,
-    StatusBar,
-} from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router';
-import { authService } from '@/services/authService';
-import { styles } from './styles';
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator, ScrollView, KeyboardAvoidingView, Platform, StatusBar } from "react-native";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { authService } from "@/services/authService";
+import { styles } from "./styles";
 
 const ResetPasswordScreen = () => {
     const router = useRouter();
@@ -23,162 +11,103 @@ const ResetPasswordScreen = () => {
         identifier: string;
     }>();
 
-    const [otp, setOtp] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [otp, setOtp] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
     const handleResetPassword = async () => {
-
         if (!otp.trim()) {
-            Alert.alert('Error', 'Please enter OTP');
+            Alert.alert("Error", "Please enter OTP");
             return;
         }
 
         if (!newPassword.trim()) {
-            Alert.alert('Error', 'Please enter new password');
+            Alert.alert("Error", "Please enter new password");
             return;
         }
 
         if (!confirmPassword.trim()) {
-            Alert.alert('Error', 'Please confirm your password');
+            Alert.alert("Error", "Please confirm your password");
             return;
         }
 
         if (newPassword !== confirmPassword) {
-            Alert.alert('Error', 'Passwords do not match');
+            Alert.alert("Error", "Passwords do not match");
             return;
         }
 
         setLoading(true);
 
         try {
-
             const response = await authService.resetPassword({
                 identifier,
                 otp,
                 new_password: newPassword,
             });
 
-            Alert.alert(
-                'Success',
-                response.message,
-                [
-                    {
-                        text: 'OK',
-                        onPress: () => router.replace('/login'),
-                    },
-                ]
-            );
-
+            Alert.alert("Success", response.message, [
+                {
+                    text: "OK",
+                    onPress: () => router.replace("/login"),
+                },
+            ]);
         } catch (error: any) {
+            const errorMessage = error.response?.data?.detail || error.response?.data?.message || error.message || "Password reset failed";
 
-            const errorMessage =
-                error.response?.data?.detail ||
-                error.response?.data?.message ||
-                error.message ||
-                'Password reset failed';
-
-            Alert.alert(
-                'Reset Password Failed',
-                errorMessage
-            );
-
+            Alert.alert("Reset Password Failed", errorMessage);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-            <StatusBar
-                barStyle="light-content"
-                backgroundColor="#0F172A"
-            />
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+            <StatusBar barStyle="light-content" backgroundColor="#7B5CFF" />
 
-            <ScrollView
-                contentContainerStyle={styles.scrollContainer}
-                keyboardShouldPersistTaps="handled"
-            >
-
+            <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+                {/* Purple Header */}
                 <View style={styles.header}>
-
-                    <Image
-                        source={require('@/assets/logo.png')}
-                        style={styles.logo}
-                        resizeMode="contain"
-                    />
-
-                    <Text style={styles.title}>
-                        Reset Password
-                    </Text>
-
-                    <Text style={styles.subtitle}>
-                        Create your new password
-                    </Text>
-
-                    <Text style={styles.identifier}>
-                        {identifier}
-                    </Text>
-
+                    <View style={styles.logoRow}>
+                        <View style={styles.logoCircle}>
+                            <Text style={styles.logoIcon}>💬</Text>
+                        </View>
+                        <Text style={styles.brandName}>TalkFlow</Text>
+                    </View>
+                    <Text style={styles.title}>Reset Password</Text>
+                    <Text style={styles.subtitle}>Create a new password for your account</Text>
+                    <Text style={styles.identifier}>{identifier}</Text>
                 </View>
 
-                <View style={styles.form}>
+                {/* Form Card */}
+                <View style={styles.formCard}>
+                    {/* OTP */}
+                    <Text style={styles.label}>OTP CODE</Text>
+                    <View style={styles.inputWrapper}>
+                        <Text style={styles.inputIcon}>🔢</Text>
+                        <TextInput style={styles.input} placeholder="6-digit code" placeholderTextColor="#A0AEC0" keyboardType="number-pad" maxLength={6} value={otp} onChangeText={setOtp} autoCapitalize="none" autoCorrect={false} />
+                    </View>
 
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Enter OTP"
-                        placeholderTextColor="#94A3B8"
-                        keyboardType="number-pad"
-                        maxLength={6}
-                        value={otp}
-                        onChangeText={setOtp}
-                    />
+                    {/* New Password */}
+                    <Text style={styles.label}>NEW PASSWORD</Text>
+                    <View style={styles.inputWrapper}>
+                        <Text style={styles.inputIcon}>🔒</Text>
+                        <TextInput style={styles.input} placeholder="Min. 8 characters" placeholderTextColor="#A0AEC0" secureTextEntry value={newPassword} onChangeText={setNewPassword} />
+                    </View>
 
-                    <TextInput
-                        style={styles.input}
-                        placeholder="New Password"
-                        placeholderTextColor="#94A3B8"
-                        secureTextEntry
-                        value={newPassword}
-                        onChangeText={setNewPassword}
-                    />
+                    {/* Confirm Password */}
+                    <Text style={styles.label}>CONFIRM PASSWORD</Text>
+                    <View style={styles.inputWrapper}>
+                        <Text style={styles.inputIcon}>🔒</Text>
+                        <TextInput style={styles.input} placeholder="Re-enter new password" placeholderTextColor="#A0AEC0" secureTextEntry value={confirmPassword} onChangeText={setConfirmPassword} />
+                    </View>
 
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Confirm Password"
-                        placeholderTextColor="#94A3B8"
-                        secureTextEntry
-                        value={confirmPassword}
-                        onChangeText={setConfirmPassword}
-                    />
-
-                    <TouchableOpacity
-                        style={[
-                            styles.button,
-                            loading && styles.buttonDisabled,
-                        ]}
-                        onPress={handleResetPassword}
-                        disabled={loading}
-                    >
-                        {loading ? (
-                            <ActivityIndicator
-                                color="#fff"
-                            />
-                        ) : (
-                            <Text style={styles.buttonText}>
-                                Reset Password
-                            </Text>
-                        )}
+                    {/* Reset Button */}
+                    <TouchableOpacity style={[styles.button, loading && styles.buttonDisabled]} onPress={handleResetPassword} disabled={loading} activeOpacity={0.85}>
+                        {loading ? <ActivityIndicator color="#FFFFFF" size="small" /> : <Text style={styles.buttonText}>Reset Password</Text>}
                     </TouchableOpacity>
-
                 </View>
-
             </ScrollView>
-
         </KeyboardAvoidingView>
     );
 };
